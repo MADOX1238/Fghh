@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب جديد</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .register-container {
+        width: 400px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .register-container h1 {
+        font-size: 24px;
+        color: #4267B2;
+        margin-bottom: 20px;
+      }
+      .register-container input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+      .register-container label {
+        display: inline-block;
+        margin: 10px;
+        font-size: 16px;
+        color: #333;
+      }
+      .register-container input[type="radio"] {
+        margin-left: 5px;
+      }
+      .register-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4267B2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .register-container button:hover {
+        background-color: #365899;
+      }
+      .success-message {
+        font-size: 18px;
+        color: green;
+        margin-top: 20px;
+      }
+      .error-message {
+        font-size: 16px;
+        color: red;
+        margin-top: 20px;
+      }
+    </style>
+    <script>
+      function validateForm() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm-password").value;
+        const gender = document.querySelector('input[name="gender"]:checked');
+
+        // تحقق من تطابق كلمات المرور
+        if (password !== confirmPassword) {
+          document.getElementById("error-message").textContent = "كلمتا المرور غير متطابقتين!";
+          return false;
+        }
+
+        // تحقق من اختيار الجنس
+        if (!gender) {
+          alert("من فضلك اختر جنسًا.");
+          return false;
+        }
+
+        // حفظ البيانات في localStorage
+        const userData = {
+          username: username,
+          password: password,
+          gender: gender.value
+        };
+        localStorage.setItem("userData", JSON.stringify(userData));
+
+        document.getElementById("success-message").style.display = "block";
+        setTimeout(function() {
+          window.location.href = "login.html"; // توجيه المستخدم إلى صفحة تسجيل الدخول بعد التسجيل
+        }, 2000);
+
+        return false;
+      }
+    </script>
+  </head>
+  <body>
+    <div class="register-container">
+      <h1>إنشاء حساب جديد</h1>
+      <form onsubmit="return validateForm()">
+        <input type="text" id="username" placeholder="اسم المستخدم" required>
+        <input type="password" id="password" placeholder="كلمة المرور" required>
+        <input type="password" id="confirm-password" placeholder="تأكيد كلمة المرور" required>
+        <div>
+          <label><input type="radio" name="gender" value="male" required> ذكر</label>
+          <label><input type="radio" name="gender" value="female" required> أنثى</label>
+        </div>
+        <button type="submit">تسجيل</button>
+      </form>
+      <div id="success-message" class="success-message" style="display:none;">
+        تم التسجيل بنجاح! سيتم توجيهك إلى صفحة الدخول...
+      </div>
+      <div id="error-message" class="error-message"></div>
+    </div>
+  
+</body></html>
